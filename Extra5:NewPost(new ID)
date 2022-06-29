@@ -1,0 +1,11 @@
+    elif request.method == 'POST':          # post new username to table by user id if id not exists
+        user_id = user_id
+        request_data = request.json
+        user_name = request_data.get('user_name')
+        post_id = db_connector.Msql(table='users', user_id=user_id, user_name=user_name)
+        if db_connector.Msql.check_id(post_id):
+            user_id = randint(1, 999999)
+            print({"status": "fixing...", "reason": "id already exists", "new id": user_id})
+        post_id = db_connector.Msql(table='users', user_id=user_id, user_name=user_name)
+        db_connector.Msql.insert_into(post_id)
+        return {"status": "ok", "user_post": user_name}, 200
